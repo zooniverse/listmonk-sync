@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: listmonk-cron-sync-job
+spec:
+  schedule: "0 3 * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          name: listmonk-sync
+        spec:
+          containers:
+          - name: listmonk-sync
+            image: ghcr.io/zooniverse/listmonk-sync
+            envFrom:
+            - secretRef:
+                name: listmonk-sync-env-vars
+            command: ['ruby', 'sync.rb']
+          restartPolicy: Never
+      backoffLimit: 2
