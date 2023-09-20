@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+# Bypadd STDOUT buffering for logging
 $stdout.sync = true
 
 require './panoptes'
