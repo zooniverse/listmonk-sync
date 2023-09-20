@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: listmonk-sync-job-
+spec:
+  template:
+    metadata:
+      name: listmonk-sync
+    spec:
+      containers:
+      - name: listmonk-sync
+        image: ghcr.io/zooniverse/listmonk-sync
+        envFrom:
+        - secretRef:
+            name: listmonk-sync-env-vars
+        command: ['ruby', 'sync.rb']
+      restartPolicy: Never
+  backoffLimit: 2
