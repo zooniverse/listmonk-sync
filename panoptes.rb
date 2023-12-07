@@ -103,7 +103,7 @@ class PanoptesClient
   end
 
   def beta_lists
-    @beta_lists ||= %w[beta_list_1 beta_list_2 beta_list_3].map do |list_name|
+    @beta_lists ||= %w[beta_list_1 beta_list_2 beta_list_3 beta_list_4].map do |list_name|
       {
         'uuid' => SecureRandom.uuid,
         'name' => list_name,
