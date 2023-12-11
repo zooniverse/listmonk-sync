@@ -103,7 +103,7 @@ class PanoptesClient
   end
 
   def beta_lists
-    @beta_lists ||= %w[beta_list_1 beta_list_2 beta_list_3].map do |list_name|
+    @beta_lists ||= %w[beta_list_1 beta_list_2 beta_list_3 beta_list_4].map do |list_name|
       {
         'uuid' => SecureRandom.uuid,
         'name' => list_name,
@@ -121,7 +121,7 @@ class PanoptesClient
     return @split_beta_lists if @split_beta_lists
 
     @split_beta_lists = {}
-    shuffled_beta_list.each_slice(50000).with_index do |a, i|
+    shuffled_beta_list.each_slice(75000).with_index do |a, i|
       @split_beta_lists["beta_list_#{i}"] = a
     end
     @split_beta_lists

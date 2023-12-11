@@ -39,11 +39,12 @@ listmonk.lists_by_id
 puts 'Subscribing general lists...'
 listmonk.subscribe_users(panoptes.list_emailable_users.except('beta_email_communication'))
 
-# Subscribe only 3 beta sublists
+# Subscribe 4 beta sublists
 puts 'Subscribing beta lists...'
 listmonk.subscribe_users({ 'beta_list_1' => panoptes.split_beta_lists['beta_list_1'] })
 listmonk.subscribe_users({ 'beta_list_2' => panoptes.split_beta_lists['beta_list_2'] })
 listmonk.subscribe_users({ 'beta_list_3' => panoptes.split_beta_lists['beta_list_3'] })
+listmonk.subscribe_users({ 'beta_list_4' => panoptes.split_beta_lists['beta_list_4'] })
 
 puts 'Subscribing project lists...'
 grouped_by_project = panoptes.project_emailable_users.group_by { |h| h['slug'] }
