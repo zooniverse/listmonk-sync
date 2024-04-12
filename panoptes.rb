@@ -27,6 +27,7 @@ class PanoptesClient
 
     @list_emailable_users[export_type] ||= conn.exec(
       "SELECT
+        users.id,
         users.email,
         users.display_name,
         users.unsubscribe_token
@@ -53,6 +54,7 @@ class PanoptesClient
   def project_emailable_users
     @project_emailable_users ||= conn.exec(
       "SELECT
+      	users.id,
       	users.email,
         users.display_name,
       	users.unsubscribe_token,
@@ -75,6 +77,8 @@ class PanoptesClient
   def deprojected
     @deprojected ||= project_emailable_users.map do |h|
       {
+        'id' => h['id'],
+        'project_id' => h['project_id'],
         'email' => h['email'],
         'display_name' => h['display_name'],
         'unsubscribe_token' => h['unsubscribe_token']
@@ -85,15 +89,17 @@ class PanoptesClient
   def subscribers
     return @subscribers if @subscribers
 
-    @subscribers = (delisted.uniq + deprojected.uniq).uniq
+    @subscribers = (delisted.uniq + deprojected.uniq).uniq{ |s| s["id"] }
     @subscribers.map { |s| s['uuid'] = SecureRandom.uuid }
     @subscribers
   end
 
   def general_lists
     # Don't create the beta list, that gets broken up later
-    @general_lists ||= %w[global_email_communication nasa_email_communication].map(&:to_s).map do |list_name|
+    @general_lists ||=  %w[global_email_communication nasa_email_communication].map(&:to_s).each_with_index.map do |list_name, index|
       {
+        'id' => generate_id(index),
+        'project_id' => generate_id(index),
         'uuid' => SecureRandom.uuid,
         'name' => list_name,
         'type' => 'private',
@@ -103,8 +109,10 @@ class PanoptesClient
   end
 
   def beta_lists
-    @beta_lists ||= %w[beta_list_1 beta_list_2 beta_list_3 beta_list_4].map do |list_name|
+    @beta_lists ||= %w[beta_list_1 beta_list_2 beta_list_3 beta_list_4].each_with_index.map do |list_name, index|
       {
+        'id' => generate_id(index, 2),
+        'project_id' => generate_id(index, 2),
         'uuid' => SecureRandom.uuid,
         'name' => list_name,
         'type' => 'private',
@@ -130,6 +138,8 @@ class PanoptesClient
   def project_lists
     @project_lists ||= project_emailable_users.uniq { |list| list['slug'] }.map do |h|
       {
+        'id' => h['id'],
+        'project_id' => h['project_id'],
         'uuid' => SecureRandom.uuid,
         'name' => h['project_display_name'],
         'type' => 'private',
@@ -139,6 +149,11 @@ class PanoptesClient
   end
 
   private
+
+  def generate_id(index, offset = 0)
+    new_id = 9000 + (index + offset)
+    new_id
+  end
 
   def conn
     @conn ||= PG.connect(ENV.fetch('PANOPTES_DB_URI'), sslmode: 'require')
