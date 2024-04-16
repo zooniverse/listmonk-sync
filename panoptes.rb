@@ -78,7 +78,6 @@ class PanoptesClient
     @deprojected ||= project_emailable_users.map do |h|
       {
         'id' => h['id'],
-        'project_id' => h['project_id'],
         'email' => h['email'],
         'display_name' => h['display_name'],
         'unsubscribe_token' => h['unsubscribe_token']
@@ -89,7 +88,7 @@ class PanoptesClient
   def subscribers
     return @subscribers if @subscribers
 
-    @subscribers = (delisted.uniq + deprojected.uniq).uniq{ |s| s["id"] }
+    @subscribers = (delisted.uniq + deprojected.uniq).uniq
     @subscribers.map { |s| s['uuid'] = SecureRandom.uuid }
     @subscribers
   end
@@ -99,7 +98,6 @@ class PanoptesClient
     @general_lists ||=  %w[global_email_communication nasa_email_communication].map(&:to_s).each_with_index.map do |list_name, index|
       {
         'id' => generate_id(index),
-        'project_id' => generate_id(index),
         'uuid' => SecureRandom.uuid,
         'name' => list_name,
         'type' => 'private',
@@ -112,7 +110,6 @@ class PanoptesClient
     @beta_lists ||= %w[beta_list_1 beta_list_2 beta_list_3 beta_list_4].each_with_index.map do |list_name, index|
       {
         'id' => generate_id(index, 2),
-        'project_id' => generate_id(index, 2),
         'uuid' => SecureRandom.uuid,
         'name' => list_name,
         'type' => 'private',
@@ -138,8 +135,7 @@ class PanoptesClient
   def project_lists
     @project_lists ||= project_emailable_users.uniq { |list| list['slug'] }.map do |h|
       {
-        'id' => h['id'],
-        'project_id' => h['project_id'],
+        'id' => h['project_id'],
         'uuid' => SecureRandom.uuid,
         'name' => h['project_display_name'],
         'type' => 'private',
@@ -150,8 +146,9 @@ class PanoptesClient
 
   private
 
+  #generates new id for beta/general lists
   def generate_id(index, offset = 0)
-    new_id = 9000 + (index + offset)
+    new_id = 90000 + (index + offset)
     new_id
   end
 

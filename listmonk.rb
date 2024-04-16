@@ -41,7 +41,7 @@ class ListmonkClient
     monkconn.copy_data 'COPY lists (id, uuid, name, type, description) FROM STDIN', enco do
       lists.each do |l|
         monkconn.put_copy_data [
-          l['project_id'],
+          l['id'],
           l['uuid'],
           l['name'],
           l['type'],
