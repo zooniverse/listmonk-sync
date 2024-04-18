@@ -18,9 +18,10 @@ class ListmonkClient
   end
 
   def import_subscribers(subscriber_list)
-    monkconn.copy_data 'COPY subscribers (email, name, uuid, status, attribs) FROM STDIN', enco do
+    monkconn.copy_data 'COPY subscribers (id, email, name, uuid, status, attribs) FROM STDIN', enco do
       subscriber_list.each do |s|
         monkconn.put_copy_data [
+          s['id'],
           s['email'],
           s['display_name'],
           s['uuid'],
@@ -37,9 +38,10 @@ class ListmonkClient
   end
 
   def create_lists(lists)
-    monkconn.copy_data 'COPY lists (uuid, name, type, description) FROM STDIN', enco do
+    monkconn.copy_data 'COPY lists (id, uuid, name, type, description) FROM STDIN', enco do
       lists.each do |l|
         monkconn.put_copy_data [
+          l['id'],
           l['uuid'],
           l['name'],
           l['type'],
