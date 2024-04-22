@@ -6,15 +6,15 @@ class ListmonkClient
   end
 
   def truncate_subscribers_table
-    monkconn.exec('TRUNCATE TABLE subscribers CASCADE')
+    monkconn.exec('TRUNCATE TABLE subscribers')
   end
 
   def truncate_lists_table
-    monkconn.exec('TRUNCATE TABLE lists CASCADE')
+    monkconn.exec('TRUNCATE TABLE lists')
   end
 
   def truncate_subscriber_lists_table
-    monkconn.exec('TRUNCATE TABLE subscriber_lists CASCADE')
+    monkconn.exec('TRUNCATE TABLE subscriber_lists')
   end
 
   def import_subscribers(subscriber_list)
