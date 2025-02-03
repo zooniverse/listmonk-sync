@@ -10,7 +10,11 @@ class ListmonkClient
   end
 
   def truncate_lists_table
-    monkconn.exec('TRUNCATE TABLE lists CASCADE')
+    monkconn.exec('TRUNCATE TABLE lists')
+  end
+
+  def truncate_campaign_lists_table
+    monkconn.exec('TRUNCATE TABLE campaign_lists')
   end
 
   def truncate_subscriber_lists_table
