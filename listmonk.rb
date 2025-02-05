@@ -6,19 +6,16 @@ class ListmonkClient
   end
 
   def truncate_subscribers_table
-    monkconn.exec('TRUNCATE TABLE subscribers CASCADE')
-  end
-
-  def truncate_lists_table
-    monkconn.exec('TRUNCATE TABLE lists')
+    monkconn.exec('TRUNCATE TABLE subscribers RESTART IDENTITY CASCADE')
   end
 
   def truncate_campaign_lists_table
-    monkconn.exec('TRUNCATE TABLE campaign_lists')
+    monkconn.exec('TRUNCATE TABLE campaign_lists RESTART IDENTITY CASCADE')
   end
 
-  def truncate_subscriber_lists_table
-    monkconn.exec('TRUNCATE TABLE subscriber_lists CASCADE')
+  def truncate_lists_table
+    monkconn.exec('DELETE FROM lists')
+    monkconn.exec('ALTER SEQUENCE lists_id_seq RESTART WITH 1')
   end
 
   def import_subscribers(subscriber_list)
