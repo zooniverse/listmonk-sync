@@ -20,9 +20,8 @@ subscribers = panoptes.subscribers
 
 puts 'Truncating Listmonk tables...'
 listmonk.truncate_subscribers_table
-listmonk.truncate_lists_table
 listmonk.truncate_campaign_lists_table
-listmonk.truncate_subscriber_lists_table
+listmonk.delete_from_lists_table
 
 puts 'Importing subscribers...'
 listmonk.import_subscribers(subscribers)
