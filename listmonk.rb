@@ -13,7 +13,7 @@ class ListmonkClient
     monkconn.exec('TRUNCATE TABLE campaign_lists RESTART IDENTITY CASCADE')
   end
 
-  def truncate_lists_table
+  def delete_from_lists_table
     monkconn.exec('DELETE FROM lists')
     monkconn.exec('ALTER SEQUENCE lists_id_seq RESTART WITH 1')
   end
