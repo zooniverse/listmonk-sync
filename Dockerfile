@@ -1,4 +1,4 @@
-FROM ruby:3.2-buster
+FROM ruby:3.3
 WORKDIR /app
 
 RUN apt-get update && \
