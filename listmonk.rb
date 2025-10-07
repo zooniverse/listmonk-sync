@@ -7,8 +7,6 @@ class ListmonkClient
 
   def truncate_subscribers_table
     monkconn.exec('TRUNCATE TABLE subscribers RESTART IDENTITY CASCADE')
-    # Allow new subscribers to be imported without conflicting with zoo user ids
-    monkconn.exec('SELECT setval(subscribers_id_seq, 100000000);')
   end
 
   def truncate_campaign_lists_table
