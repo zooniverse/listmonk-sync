@@ -72,9 +72,9 @@ class PanoptesClient
         AND (
           projects.launch_approved = TRUE
           OR (
-              NOT projects.launch_approved
-			        AND projects.beta_approved
-			        AND projects.created_at > NOW()::date - INTERVAL '2 years'
+              projects.launch_approved = FALSE
+			  AND projects.beta_approved = TRUE
+			  AND projects.created_at > NOW()::date - INTERVAL '2 years'
           )
         )"
     ).entries
