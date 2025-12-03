@@ -69,7 +69,14 @@ class PanoptesClient
       	user_project_preferences.email_communication = TRUE
       	AND users.activated_state = 0
       	AND users.valid_email = TRUE
-        AND projects.launch_approved = TRUE"
+        AND (
+          projects.launch_approved = TRUE
+          OR (
+              projects.launch_approved = FALSE
+			  AND projects.beta_approved = TRUE
+			  AND projects.created_at > NOW()::date - INTERVAL '2 years'
+          )
+        )"
     ).entries
   end
 
