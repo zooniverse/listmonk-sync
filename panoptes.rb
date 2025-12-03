@@ -36,7 +36,7 @@ class PanoptesClient
       WHERE
       	users.activated_state = 0
       	AND users.valid_email = TRUE
-      	AND users.banned= FALSE
+      	AND users.banned = FALSE
       	AND users.#{export_type} = TRUE"
     ).entries
   end
@@ -75,8 +75,8 @@ class PanoptesClient
           projects.launch_approved = TRUE
           OR (
               projects.launch_approved = FALSE
-			        AND projects.beta_approved = TRUE
-			        AND projects.created_at > NOW()::date - INTERVAL '2 years'
+			  AND projects.beta_approved = TRUE
+			  AND projects.created_at > NOW()::date - INTERVAL '2 years'
           )
         )"
     ).entries
