@@ -36,6 +36,7 @@ class PanoptesClient
       WHERE
       	users.activated_state = 0
       	AND users.valid_email = TRUE
+      	AND users.banned = FALSE
       	AND users.#{export_type} = TRUE"
     ).entries
   end
@@ -69,6 +70,7 @@ class PanoptesClient
       	user_project_preferences.email_communication = TRUE
       	AND users.activated_state = 0
       	AND users.valid_email = TRUE
+      	AND users.banned = FALSE
         AND (
           projects.launch_approved = TRUE
           OR (
